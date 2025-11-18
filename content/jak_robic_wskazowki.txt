@@ -1,0 +1,31 @@
+Jak robić bevel na wskazowkach bitmapowych za pomocą Gimp
+
+1) Na nowym, przezroczystym layerze umieścić bitmape wskazowki.
+
+2) Ewentualnie zalać ją kolorem, który chcemy mieć docelowo, czyli
+zamiast czarnego dać tam np. żólty-złoty.
+
+3) Stworzyć nowy layer, cały zalany na czarno
+
+
+4) Wrocić na layer wskazowki i zrobić
+   "Alpha to selection"
+
+5) Zmiekczyć tę selekcję czyli
+     Selection->Feather  np na 15 lub mniej.
+Jeśli będzie mniej, to brzegi bevelowane będą węższe,
+Jeśli będzie za duże, to cała wskazowka będzie ostrosłupowa
+nie będzie płaskiej części.
+
+6) Na tym nowym layerze zaznaczyć tę selekcję i tam zalać to białym kolorem.
+
+7) Wyłączyć selekcję i na tym layerze zrobić
+disort->Emboss
+W rezultacie otrzymamy obrazek w ocieniach szarości.
+
+8) Jeśli chcemy żeby to nie była szarość, tylko kolor tego, co daliśmy
+na layerze wskazówki (np. gold) to wykonujemy
+   Colours->Colour to Alpha
+gdzie kroplomierzem zaznaczamy szarość, która ma być
+przeźroczysta, czyli tam ma być "gold".
+

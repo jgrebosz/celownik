@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Topcje_dlg</class>
+ <widget class="QDialog" name="Topcje_dlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>688</width>
+    <height>656</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Options</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Transparency of the clock  </string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <widget class="QSlider" name="horizontalSlider_przezroczystosc">
+              <property name="maximum">
+               <number>255</number>
+              </property>
+              <property name="pageStep">
+               <number>50</number>
+              </property>
+              <property name="value">
+               <number>255</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="invertedControls">
+               <bool>true</bool>
+              </property>
+              <property name="tickPosition">
+               <enum>QSlider::TicksBelow</enum>
+              </property>
+              <property name="tickInterval">
+               <number>10</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_transparency">
+              <property name="text">
+               <string>255</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>Options of the clock</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QCheckBox" name="checkBox_na_wierzchu">
+              <property name="text">
+               <string>Always on top</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_blokuj_pozycje_na_ekranie">
+              <property name="text">
+               <string>Block position on the screen</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_shutdown">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Shutdown now</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox__uruchom_z_Linuxem">
+              <property name="title">
+               <string>Starting program</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QPushButton" name="pushButton_sciezka">
+                 <property name="text">
+                  <string>Test path and OS</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_uruchom_przy_logowaniu">
+                 <property name="text">
+                  <string>Start during login (not working yet)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_kilka_kopii">
+                 <property name="text">
+                  <string>Allow to run many copies of this program (not working yet)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>Language</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QComboBox" name="comboBox_language">
+              <property name="currentText">
+               <string>jeszcze nie dziala</string>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>jeszcze nie dziala</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>nadal nie działa</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Clock face</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Click on a clock-face name to try</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" rowspan="3">
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Show</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_14">
+            <item>
+             <widget class="QCheckBox" name="checkBox_dzien_tygodnia">
+              <property name="text">
+               <string>weekday</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_display_date">
+              <property name="text">
+               <string>data</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_dispaly_sekundnik">
+              <property name="text">
+               <string>hand of seconds</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_favourites">
+           <property name="text">
+            <string>Set preferred clock-hands for this clock face</string>
+           </property>
+           <property name="icon">
+            <iconset theme="pencil.png">
+             <normalon>:/new/prefix1/content/pencil.png</normalon>
+            </iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_preferences">
+           <property name="title">
+            <string>Preferences about clock hands</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <item>
+             <widget class="QLabel" name="label_fav_info">
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_assign_preferred_hands">
+              <property name="text">
+               <string>Assign current hands as preferred ones</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/new/prefix1/content/pencil.png</normalon>
+               </iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>25</width>
+                <height>25</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_return_favourite">
+              <property name="text">
+               <string>Restore preferred hands</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_delete_preference">
+              <property name="text">
+               <string>Delete assignment</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_inf_czy_fabryczne">
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 127);</string>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#001fea;&quot;&gt;You can return to the factory settings&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::RichText</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_reset_to_factory">
+              <property name="text">
+               <string>Restore  factory hands</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>5555</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Resize clock</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QSlider" name="horizontalSlider_zoom">
+              <property name="maximum">
+               <number>300</number>
+              </property>
+              <property name="singleStep">
+               <number>25</number>
+              </property>
+              <property name="pageStep">
+               <number>25</number>
+              </property>
+              <property name="sliderPosition">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="tickPosition">
+               <enum>QSlider::TicksBelow</enum>
+              </property>
+              <property name="tickInterval">
+               <number>50</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_zoom">
+              <property name="text">
+               <string>procent</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_zoom">
+              <property name="text">
+               <string>zoom enabled</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QTableWidget" name="tableWidget_cyferblaty">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>318</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Hour hands</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="title">
+          <string>Choose a prefered style    </string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="5,4,1">
+          <item>
+           <widget class="QRadioButton" name="radioButton_hours_hand_bitmap_type">
+            <property name="text">
+             <string>bitmap-type hours' hand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_hours_hand_vector_type">
+            <property name="text">
+             <string>vector-type hours' hand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_nr_wsk_wektorowej_godz">
+            <property name="maximum">
+             <number>2</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Click on a clock's-hand to try</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidget_wsk_godzinowe">
+         <property name="iconSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>Minutes hands</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_17">
+       <item>
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="title">
+          <string>Choose a prefered style    </string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="radioButton_minutes_hand_bitmap_type">
+            <property name="text">
+             <string>bitmap-type minutes' hand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_minutes_hand_vector_type">
+            <property name="text">
+             <string>vector-type minutes' hand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_nr_wsk_wektorowej_min">
+            <property name="maximum">
+             <number>2</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Click on a clock's-hand to try</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidget_wsk_minutowe">
+         <property name="iconSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
+       <string>Seconds hands</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
+          <string>Choose a prefered style     </string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QRadioButton" name="radioButton_sec_bitmap_type">
+            <property name="text">
+             <string>bitmap-type seconds' hand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_sec_vector_type">
+            <property name="text">
+             <string>vector-type seconds' hand</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_nr_wsk_wektorowej_sek">
+            <property name="maximum">
+             <number>2</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Click on a clock's-hand to try</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidget_wsk_sekundowe">
+         <property name="iconSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Time zones</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_16" stretch="1,0,1,1,8">
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_AM_PM">
+         <property name="text">
+          <string>Show AM or PM text   (useful for different  time zones)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_godzina_w_strefie">
+         <property name="text">
+          <string>Choose a time zone from the list below</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_timezone">
+         <property name="maxVisibleItems">
+          <number>40</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string>About</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;This freeware clock-reminder program &lt;br/&gt;is made specially for LINUX users &lt;br/&gt;by &lt;br/&gt;Jerzy Grębosz &lt;br/&gt;and &lt;br/&gt;Krzysztof Grębosz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;We were inspired by a famous Windows program: ClocX&lt;br/&gt;written by Ing. Bohdan Rylko&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;&lt;br/&gt;In this clock-reminder program you can choose some clock-faces designed by us, &lt;br/&gt;some other - which we found in internet public domain.&lt;br/&gt;&lt;br/&gt;However, there are also some pictures of clocks made by world-famous producers. &lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:12pt; color:#d89000;&quot;&gt;We dared to &amp;quot;quote&amp;quot; them in this freeware program, &lt;br/&gt;because we are really impressed by their excusive beauty.&lt;br/&gt;We would be very proud if you also admire their work so much, &lt;br/&gt;that some day you will buy a real clock of these producers.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Topcje_dlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>584</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Topcje_dlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>584</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
