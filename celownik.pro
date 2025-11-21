@@ -63,6 +63,6 @@ OTHER_FILES  += \
                 content/*.png
 
 
-DISTFILES += \
+DISTFILES += polski2.qm \
     content/jak_robic_wskazowki.txt \
 
