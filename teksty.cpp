@@ -18,7 +18,7 @@ QString default_seconds_hand_txt { QObject::tr("factory seconds hand  (for a par
 
 #define tr  QObject::tr
 
-QStringList labels {tr("Enable"), tr("Name"), tr("Time"),  tr("Frequency"), tr("Data"), tr("id")};
+QStringList labels {QObject::tr("Enable"), QObject::tr("Name"), QObject::tr("Time"),  QObject::tr("Frequency"), QObject::tr("Data"), QObject::tr("id")};
 
 std::vector<QString> tyg {
     QObject::tr("Mon"),
@@ -30,24 +30,24 @@ std::vector<QString> tyg {
             QObject::tr("Sun")
 };
 
-QString minutes_txt { tr("%1, ") },
-error_opening_txt {  tr("Error whilie opening file with user-defined alarms  ")};
+QString minutes_txt { QObject::tr("%1, ") },
+error_opening_txt {  QObject::tr("Error whilie opening file with user-defined alarms  ")};
 
-QString mess_usuwanie { tr("You are going to remove the alarm =  nr %1\n\n"
+QString mess_usuwanie { QObject::tr("You are going to remove the alarm =  nr %1\n\n"
                        " called  : %2\n"
                        " hour: %3\n"
                        " date: %4\n"
                        " polygon   : %5\n\n"
                        "Are you sure ?") };
 
-QString are_you_sure { tr("ARE YOU SURE ? ") } ;
+QString are_you_sure { QObject::tr("ARE YOU SURE ? ") } ;
 
-QString yes_txt { tr("Yes") } ;
-QString no_txt { tr("No") } ;
-QString cancel_txt { tr("Cancel") } ;
+QString yes_txt { QObject::tr("Yes") } ;
+QString no_txt { QObject::tr("No") } ;
+QString cancel_txt { QObject::tr("Cancel") } ;
 
-QString no_entry_txt {  tr("No alarm entry selected") } ;
-QString af_first_select_txt { tr( "At first select some alarm by clicking on its name ") } ;
+QString no_entry_txt {  QObject::tr("No alarm entry selected") } ;
+QString af_first_select_txt { QObject::tr( "At first select some alarm by clicking on its name ") } ;
 
 
 // plik "tjeden_alarm.cpp" -----------------------------------------
@@ -57,21 +57,21 @@ QString af_first_select_txt { tr( "At first select some alarm by clicking on its
 // plik Tedytor_alarmow.cpp ---------------------------------------
 
 QStringList list_czestotliwosc =
-{ tr("Once"),            // "Raz",
-   tr("Every day"),            //"Codziennie",
-   tr("Every week"),            //"Co tydzień",
-   tr("Every month"),            //"Co miesiąc",
-   tr("Every year"),            //"Co rok",
-   tr("Minutes"),            //"Minuty"
+{ QObject::tr("Once"),            // "Raz",
+   QObject::tr("Every day"),            //"Codziennie",
+   QObject::tr("Every week"),            //"Co tydzień",
+   QObject::tr("Every month"),            //"Co miesiąc",
+   QObject::tr("Every year"),            //"Co rok",
+   QObject::tr("Minutes"),            //"Minuty"
 };
 
-QString detailed_description_txt  {  tr("user text...") } ;
+QString detailed_description_txt  {  QObject::tr("user text...") } ;
 
-QString  date_txt( tr("Date:")) ;      // data (kalendarzowa)
-QString  start_on_txt( tr("Start on:")) ;      // "począwszy od "data (kalendarzowa)"
+QString  date_txt( QObject::tr("Date:")) ;      // data (kalendarzowa)
+QString  start_on_txt( QObject::tr("Start on:")) ;      // "począwszy od "data (kalendarzowa)"
 
-QString  choose_music_txt( tr("Choose a file containing the sound/music"));
-QString  choose_program_txt( tr( "Choose a program to be exectued during alarm"));
+QString  choose_music_txt( QObject::tr("Choose a file containing the sound/music"));
+QString  choose_program_txt( QObject::tr( "Choose a program to be exectued during alarm"));
 
 
 

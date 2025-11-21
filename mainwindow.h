@@ -18,7 +18,8 @@ class MainWindow;
 }
 
 class Topcje_dlg;
-
+extern std::string pathed_nazwa_pliku_z_opcjami ;
+extern std::string nazwa_pliku_z_opcjami;
 //-------------------------------------------------
 enum  class  tryb_wskazowek { zwykle = 0, ulubione, fabryczne };
 
@@ -207,12 +208,13 @@ public:
     bool spr_rozne_typy_alarmu(Tjeden_alarm &a);
     string kosmetyka_nazwy_programu(string nazwa);
     void zmiana_opcji_on_top(bool flag );
-    void zmiana_jezyka(int nr_jezyka);
+    //void zmiana_jezyka(int nr_jezyka);
 
     void zapisz_ulubione_wskazowki_na_dysku();
     void odczytaj_ulubione_wskazowki_z_dysku();
 
-
+    void changeEvent(QEvent *event) override;
+    void updateTexts();
 private slots:
 
     void mousePressEvent(QMouseEvent *e) override;
@@ -277,7 +279,7 @@ private:
     //void wstepne_wczytanie_faz_ksiezyca();
 
 
-    std::string nazwa_pliku_z_opcjami { "zegary.dat"};
+   // std::string nazwa_pliku_z_opcjami {"celownik_options.dat"};
     std::string pathed_nazwa_pliku_z_opcjami ;
     std::string nazwa_pliku_z_alarmami { "alarmy.dat"};
     std::string pathed_nazwa_pliku_z_alarmami ;
@@ -452,6 +454,7 @@ private:
     void test_poligons(int linia);
 
     vector<QColor> kolory_poligonow;
+
 };
 
 template <class typ>

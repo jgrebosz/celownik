@@ -264,4 +264,25 @@ void Tedytor_alarmow_dlg::on_toolButton_nazwy_programu_clicked()
     ui->lineEdit_nazwa_programu->setText(fname);
 }
 //******************************************************************************************************************
+//**********************************************************************************************************
+void Tedytor_alarmow_dlg::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);  // odświeża wszystkie teksty z .ui
+
+        updateTexts();            // jeśli masz teksty ustawiane ręcznie
+    }
+
+    QDialog::changeEvent(event);  // WAŻNE!
+}
+//**********************************************************************************************************
+void Tedytor_alarmow_dlg::updateTexts()
+{
+    // ui->labelStatus->setText(tr("Status"));
+    // ui->pushButtonStart->setText(tr("Start"));
+    // ui->comboBox_powtarzanie->clear();
+    //  ui->comboBox_powtarzanie->addItems(Tjeden_alarm::list_czestotliwosc());
+}
+//**********************************************************************************************************
 

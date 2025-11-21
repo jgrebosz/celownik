@@ -21,6 +21,10 @@ public:
     int get_value();
 
     int value_transp;
+
+    void changeEvent(QEvent *event) override;
+    void updateTexts();
+
 private slots:
     void on_horizontalSlider_valueChanged(int value);
 

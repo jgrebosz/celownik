@@ -19,6 +19,9 @@ public:
     void ustaw_alarm_do_edycji(const Tjeden_alarm & alarm);
    Tjeden_alarm daj_rezultat() {return al;}
 
+    void changeEvent(QEvent *event) override;
+    void updateTexts();
+
 private slots:
     void on_comboBox_powtarzanie_currentIndexChanged(int index);
 
@@ -46,6 +49,7 @@ private:
     void mod_zgas_wszystkie();
     Tjeden_alarm al;
     void rozlozenie_po_kontrolkach();
+
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 extern QStringList list_czestotliwosc;

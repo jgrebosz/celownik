@@ -22,6 +22,9 @@ public:
 
     void usuniecie_playera_z_wektora_grajacych();
 
+    void changeEvent(QEvent *event) override;
+    void updateTexts();
+
 private slots:
       void on_pushButton_close_clicked();
 

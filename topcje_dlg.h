@@ -22,6 +22,9 @@ public:
             MainWindow *ptr);
     ~Topcje_dlg();
 
+    void changeEvent(QEvent *event) override;
+    void updateTexts();
+
 private slots:
     void on_checkBox_na_wierzchu_clicked(bool checked);
 
@@ -119,6 +122,10 @@ private slots:
 	void on_pushButton_sciezka_clicked();
 
     void on_checkBox_uruchom_przy_logowaniu_stateChanged(int arg1);
+
+    void on_comboBox_language_currentIndexChanged(int index);
+
+    void on_radioButton_english_toggled(bool checked);
 
 private:
     Ui::Topcje_dlg *ui;

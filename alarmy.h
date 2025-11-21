@@ -18,6 +18,9 @@ public:
     explicit Alarmy(QWidget *parent, string fname);
     ~Alarmy();
 
+    void changeEvent(QEvent *event) override;
+    void updateTexts();
+
 private slots:
    // void on_buttonBox_accepted();
 	void on_pushButton_usun_rzad_clicked();

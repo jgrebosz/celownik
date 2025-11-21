@@ -365,3 +365,25 @@ void Alarmy::on_pushButton_test_clicked()
         tablica_alarmow[nr].flag_test_alarm_now = true;
     }
 }
+//***************************************************************************************************************
+//**********************************************************************************************************
+void Alarmy::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);  // odświeża wszystkie teksty z .ui
+
+        updateTexts();            // jeśli masz teksty ustawiane ręcznie
+    }
+
+    QDialog::changeEvent(event);  // WAŻNE!
+}
+//**********************************************************************************************************
+void Alarmy::updateTexts()
+{
+    // ui->labelStatus->setText(tr("Status"));
+    // ui->pushButtonStart->setText(tr("Start"));
+    // ui->comboBox_powtarzanie->clear();
+    //  ui->comboBox_powtarzanie->addItems(Tjeden_alarm::list_czestotliwosc());
+}
+//**********************************************************************************************************

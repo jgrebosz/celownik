@@ -97,3 +97,24 @@ void Togloszenie_alarmu::usuniecie_playera_z_wektora_grajacych()
 
 
 }
+//**********************************************************************************************************
+void Togloszenie_alarmu::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);  // odświeża wszystkie teksty z .ui
+
+        updateTexts();            // jeśli masz teksty ustawiane ręcznie
+    }
+
+    QDialog::changeEvent(event);  // WAŻNE!
+}
+//**********************************************************************************************************
+void Togloszenie_alarmu::updateTexts()
+{
+    // ui->labelStatus->setText(tr("Status"));
+    // ui->pushButtonStart->setText(tr("Start"));
+    // ui->comboBox_powtarzanie->clear();
+    //  ui->comboBox_powtarzanie->addItems(Tjeden_alarm::list_czestotliwosc());
+}
+//**********************************************************************************************************

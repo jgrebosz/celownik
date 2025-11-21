@@ -51,8 +51,10 @@ extern QStringList list_czestotliwosc;
 
 extern bool flag_ma_byc_restart;
 bool wstepne_flag_na_wierzchu;
-int wstepne_nr_jezyka;
-int nr_obecnie_zainstalowanego_jezyka;
+
+ std::string nazwa_pliku_z_opcjami { "celownik_options.dat"};
+//std::string nazwa_pliku_z_opcjami { "zegar.dat"};
+std::string pathed_nazwa_pliku_z_opcjami ;
 
 string nazwa_timezone;
 QTimeZone time_zone = QTimeZone( QString("localTime").toLatin1());              // ( QTimeZone::systemTimeZone() );
@@ -103,9 +105,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    cout << "Konstruktor Mainwindow "
-            //         <<   tr( "example of language English ").toStdString()
-         << endl;
+    // cout << "Konstruktor Mainwindow "
+    //         //         <<   tr( "example of language English ").toStdString()
+    //      << endl;
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -120,8 +122,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QDir dir;
     sciezka = QDir::currentPath().toStdString() + "/";
-    cout << "Current directory = " << sciezka  << endl;
+    // cout << "Current directory = " << sciezka  << endl;
     pathed_nazwa_pliku_z_opcjami = sciezka + nazwa_pliku_z_opcjami;
+    // cout << __PRETTY_FUNCTION__ << " pathed_nazwa_pliku_z_opcjami = " << pathed_nazwa_pliku_z_opcjami << endl;
     pathed_nazwa_pliku_z_alarmami = sciezka + nazwa_pliku_z_alarmami ;
     pathed_nazwa_pliku_z_faworytami = sciezka + nazwa_pliku_z_faworytami;
 
@@ -145,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
     time_zone = QTimeZone( QString("localTime").toLatin1());
     time_zone = QTimeZone( QString(nazwa_timezone.c_str() ).toLatin1());
 
-
+    nr_tarczy = 0;
 
     zmiana_wygladu_cyferblatu(nr_tarczy,  tryb_wskazowek::ulubione );  // jesli sie nie udalo, to false
 
@@ -173,6 +176,8 @@ MainWindow::~MainWindow()
     //    cout << "Destruktor Mainwindow " << endl;
     delete ui;
     delete rubberBand;
+
+    zapis_opcji_na_dysku();
 }
 
 //***************************************************************************************
@@ -365,7 +370,7 @@ void MainWindow::przelicz_wskazowke(int nr_wybranej_wsk_any,
 int MainWindow::znajdz_nr_wskazowki_o_bitmapie(string naz, vector<Tdane_wskazowki> &v)
 {
 
-    //    cout << "Szukam wskazowki o takiej nazwie bitmapy " << naz << endl;
+       // cout << "Szukam wskazowki o takiej nazwie bitmapy [" << naz << "]" << endl;
 
     for(uint nr = 0 ; nr < v.size() ; ++nr)
     {
@@ -381,16 +386,17 @@ int MainWindow::znajdz_nr_wskazowki_o_bitmapie(string naz, vector<Tdane_wskazowk
     cout << " - wskazowka " << naz << " NIE znaleziona w wektorze wskazowek "
          << " blad programisty"
          << endl;
-    exit(3);
+    // exit(3);
 
-    return -1;
+    return 0;
+    // return -1;
 
 }
 //***************************************************************************************
 int MainWindow::znajdz_nr_wskazowki_o_nazwie(string naz, vector<Tdane_wskazowki> &v)
 {
 
-    //    cout << "Szukam wskazowki o nazwie literackiej " << naz << endl;
+       // cout << "Szukam wskazowki o nazwie literackiej [" << naz << "]" <<  endl;
     for(uint nr = 0 ; nr < v.size() ; ++nr)
     {
         //        cout << "Porownuje z nazwa " << v[nr].nazwa << endl;
@@ -401,8 +407,9 @@ int MainWindow::znajdz_nr_wskazowki_o_nazwie(string naz, vector<Tdane_wskazowki>
             return nr;
         }
     }
-    //    cout << " - NIE znaleziona  po nazwie "
-    //         <<  " szukamy wiec po nazwach bitmapy " << endl;
+       // cout << __PRETTY_FUNCTION__ << " - NIE znaleziona  po nazwie "
+       //      <<  " szukamy wiec po nazwach bitmapy " << endl;
+
     return     znajdz_nr_wskazowki_o_bitmapie (naz, v);
 
 }
@@ -555,7 +562,15 @@ bool MainWindow::czy_nazwa_naprawde_bitmapowa(string nazwa)
 //************************************************************************************************************************
 bool MainWindow::zmiana_wygladu_cyferblatu(int nr,  tryb_wskazowek  tryb)
 {
-    //    cout << __func__  << " (z argumentem force favorites = " << int (tryb) << ")"<< endl;
+    // cout << __func__  << " (z argumentem force favorites = "
+    //         << int (tryb) << ")" << " nr = " << nr << endl;
+
+    if(nr >= (int) cyferblat.size())
+    {
+        nr = 0;
+        return 0;
+    }
+
     nr_tarczy= nr;
 
     cyf = cyferblat[nr];
@@ -567,7 +582,7 @@ bool MainWindow::zmiana_wygladu_cyferblatu(int nr,  tryb_wskazowek  tryb)
 
         //        cout << "przejrzenie tablicy favourites " << endl;
         bool flag_znalezione = false;
-        for(auto entry : vec_pref_hands)
+        for(auto &entry : vec_pref_hands)
         {
 
             if(entry.clock_face_name == cyf.nazwa)    // czy jest zapis ulubionych wskazowek dla tego cyferbaltu?
@@ -837,8 +852,6 @@ bool MainWindow::zmiana_wygladu_cyferblatu(int nr,  tryb_wskazowek  tryb)
     update();
     return true;
 
-
-
 }
 //***************************************************************************************
 void MainWindow::mousePressEvent(QMouseEvent *e)
@@ -863,36 +876,36 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 
         if(biezacy_tryb == zwykly_sa_poligony)
         {
-            context_Menu->addAction("Draw a new polygon", this, SLOT(wejdz_w_rys_poligonu() ) );
-            context_Menu->addAction("Edit polygon", this, SLOT(wejdz_w_edycje_poligonu() ) );
-            //context_Menu->addAction("Remove polygon", this, SLOT(remove_poligon() ) );
+            context_Menu->addAction(tr("Draw a new polygon"), this, SLOT(wejdz_w_rys_poligonu() ) );
+            context_Menu->addAction(tr("Edit polygon"), this, SLOT(wejdz_w_edycje_poligonu() ) );
+            //context_Menu->addAction(tr("Remove polygon"), this, SLOT(remove_poligon() ) );
         }
         if(biezacy_tryb == zwykly_bez_poligonu)
-            context_Menu->addAction("Draw a new polygon", this, SLOT(wejdz_w_rys_poligonu() ) );
+            context_Menu->addAction(tr("Draw a new polygon"), this, SLOT(wejdz_w_rys_poligonu() ) );
 
         if(biezacy_tryb == rysowanie)
-            context_Menu->addAction("Finish drawing a polygon", this,
+            context_Menu->addAction(tr("Finish drawing a polygon"), this,
                                     SLOT(skoncz_rys_poligonu() ) );
         if(biezacy_tryb == edycja){
-            context_Menu->addAction("Finish editing polygon", this,
+            context_Menu->addAction(tr("Finish editing polygon"), this,
                                     SLOT(skoncz_edycje_poligonu() ) );
-            context_Menu->addAction("Add new vertex of polygon (after a selected vertex)", this,
+            context_Menu->addAction(tr("Add new vertex of polygon (after a selected vertex)"), this,
                                     SLOT(dodaj_vertex() ) );
-            context_Menu->addAction("Remove selected vertex", this,
+            context_Menu->addAction(tr("Remove selected vertex"), this,
                                     SLOT(remove_selected_vertex() ) );
-            context_Menu->addAction("Remove selected polygon", this, SLOT(remove_poligon() ) );
+            context_Menu->addAction(tr("Remove selected polygon"), this, SLOT(remove_poligon() ) );
             // context_Menu->addAction("More transparency of background (in steps)", this, SLOT(set_transparency() ) );
-            context_Menu->addAction("Transparency of a background (a SLIDER) ", this, SLOT(transparency_slider() ) );
+            context_Menu->addAction(tr("Transparency of a background (a SLIDER) "), this, SLOT(transparency_slider() ) );
         }
 
         context_Menu->addSeparator();
 
         if(biezacy_tryb == zwykly_sa_poligony || biezacy_tryb == zwykly_bez_poligonu){
 
-            context_Menu->addAction(options_txt, this, SLOT(wywolanie_okna_opcji() ));
-            context_Menu->addAction(alarms_txt, this, SLOT(wywolanie_okna_alarmow() ) );
+            context_Menu->addAction(tr("Options..."), this, SLOT(wywolanie_okna_opcji() ));
+            context_Menu->addAction(tr("Alarms..."), this, SLOT(wywolanie_okna_alarmow() ) );
 
-            context_Menu->addAction("Scale the ruler", this, SLOT(skalowanie_podzialki() ) );
+            context_Menu->addAction(tr("Scale the ruler"), this, SLOT(skalowanie_podzialki() ) );
 
         }
 
@@ -901,7 +914,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 
 
         context_Menu->addSeparator();
-        string info { "You clicked at screen position " } ;
+        string info =  tr("You clicked at screen position ").toStdString();
         info += to_string(e->globalPosition().x()) + ", " + to_string(e->globalPosition().y());
 
         context_Menu->addAction(info.c_str(), this, SLOT(empty_function() ));
@@ -965,7 +978,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 
 
 
-            cout << "Klik w p-cie okna " ;
+            // cout << "Klik w p-cie okna " ;
             drukuj_pt (p_klikniety);
             cout << endl;
 
@@ -995,17 +1008,17 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
                     {
 
                         nr_przesuwanego_vertexu = i;
-                        cout << "JEST Klik jest w sasiedztwie vertexu nr "
-                             << i
-                             << " poligon[i].x() =  " << poligon[i].x()*gskala
-                             << ", x klik = " << x
-                             << " poligon[i].y() =  " << poligon[i].y()*gskala
-                             << ", y klik = " << y
-                             << endl;
+                        // cout << "JEST Klik jest w sasiedztwie vertexu nr "
+                        //      << i
+                        //      << " poligon[i].x() =  " << poligon[i].x()*gskala
+                        //      << ", x klik = " << x
+                        //      << " poligon[i].y() =  " << poligon[i].y()*gskala
+                        //      << ", y klik = " << y
+                        //      << endl;
 
                         // zapamietanie najblizszego punktu
                         p_previous_vtx = QPoint(poligon[i].x()*gskala,  poligon[i].y()*gskala);
-                        cout << "zapamietanie p_previous punktu vertexu ";
+                        // cout << "zapamietanie p_previous punktu vertexu ";
                         drukuj_pt (p_previous_vtx); cout << endl;
                         biezacy_poligon = p;
 
@@ -1054,7 +1067,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
                 //         rubberband_on = true;
                 //         setMouseTracking( true );
 
-                cout << "Znaleziony vertex " << endl ;
+                // cout << "Znaleziony vertex " << endl ;
 
 
                 // nowe
@@ -1071,7 +1084,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 
                 if (!rubberBand)
                 {
-                    cout << " need to make new rubberband for marking vertices" << endl;
+                    // cout << " need to make new rubberband for marking vertices" << endl;
                     rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
                 }
                 QPalette pal;
@@ -1131,7 +1144,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
             lastMouseX = e->position().x();
             lastMouseY = e->position().y();
 
-            cout << "Na calym ekranie [" << e->globalPosition().x() << ", " << e->globalPosition().y()  << "]" << endl; ;
+            // cout << "Na calym ekranie [" << e->globalPosition().x() << ", " << e->globalPosition().y()  << "]" << endl; ;
         }
 
 }
@@ -1161,7 +1174,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
     if ( flag_mouse_just_pressed )
     {
-        cout << " flag_mouse_just_pressed -> this is just the  first move after pressing " << endl;
+        // cout << " flag_mouse_just_pressed -> this is just the  first move after pressing " << endl;
         flag_mouse_just_pressed = false;
         flag_rubberband_on = true;
         setMouseTracking ( true );
@@ -1283,7 +1296,7 @@ void  MainWindow::mouseReleaseEvent ( QMouseEvent* )
 
         if ( flag_rubberband_on && (flag_move_one_vertex_of_polygon ) )
         {
-            cout << "This is rubberband " << endl;
+            // cout << "This is a rubberband " << endl;
             //            QPainter p ( this );
             //            p.eraseRect ( rect() );
 
@@ -2207,7 +2220,7 @@ void MainWindow::rysowanie_podzialki(QPainter &painter)
 {
     //ruler_mm = 65;
     if(ruler_mm == 0) {
-        painter.drawText(-promien/2, 30, "No scale yet");
+        painter.drawText(-promien/2, 30, tr("No scale yet"));
         return;
     }
 
@@ -2259,29 +2272,43 @@ void MainWindow::wywolanie_okna_alarmow()
 //*********************************************************************************************************
 void MainWindow::wywolanie_okna_opcji()
 {
-    wstepne_nr_jezyka = nr_jezyka;
+    // wstepne_nr_jezyka = nr_jezyka;
+    // cout << __PRETTY_FUNCTION__ << ", nr_jezyka = " << nr_jezyka
+         // << endl;
+
     auto *dlg = new Topcje_dlg(this);
 
 
     if(dlg->exec() == QDialog::Accepted)
     {
+        // cout << "Po accepted = "
+        //      << __PRETTY_FUNCTION__ << ", nr_jezyka = " << nr_jezyka
+        //      // << " nr_obecnie_zainstalowanego_jezyka = " << nr_obecnie_zainstalowanego_jezyka
+        //      << endl;
+
         zapis_opcji_na_dysku();
     }
     delete dlg;
+
+    // cout << "Zakonczenie funkcji "
+    //     << __PRETTY_FUNCTION__ << ", nr_jezyka = " << nr_jezyka
+    //      // << " nr_obecnie_zainstalowanego_jezyka = " << nr_obecnie_zainstalowanego_jezyka
+    //      << endl;
+
 
     this->setWindowOpacity(przezroczystosc/255.0);
 
     //    cout << "Po dialogu opcji jezyk nr  " << nr_jezyka << endl;
 
-    if(flag_na_wierzchu != wstepne_flag_na_wierzchu
-            ||
-            wstepne_nr_jezyka != nr_jezyka
-            )
-    {
-        flag_ma_byc_restart = true;
-        //        cout << "ma byc restart (przed close )" << endl;
-        close();
-    }
+    // if(flag_na_wierzchu != wstepne_flag_na_wierzchu
+    //         ||
+    //         wstepne_nr_jezyka != nr_jezyka
+    //         )
+    // {
+    //     flag_ma_byc_restart = true;
+    //     //        cout << "ma byc restart (przed close )" << endl;
+    //     close();
+    // }
 }
 //*********************************************************************************************************
 void MainWindow::wejdz_w_rys_poligonu()
@@ -6262,13 +6289,18 @@ void MainWindow::wstepne_wpisanie_wskazowek_minutowych()
 //***************************************************************************************************************
 void MainWindow::zapis_opcji_na_dysku()
 {
+    // qDebug() << __PRETTY_FUNCTION__ << " nr_jezyka = " << nr_jezyka
+    //          << " zapisywane do pliku " << pathed_nazwa_pliku_z_opcjami;
+
     ofstream plik(pathed_nazwa_pliku_z_opcjami);
     if(!plik)
     {
         cerr << "Blad zapisu pliku " << pathed_nazwa_pliku_z_opcjami << endl;
         exit(3);
     }
-    plik << przezroczystosc << "\n"
+    plik
+        << nr_jezyka << "\n"
+        << przezroczystosc << "\n"
          << przezroczystosc_dla_kursora << "\n"
          << flag_na_wierzchu << "\n"
          <<  flag_ograniczenie_pozycji << "\n"
@@ -6276,7 +6308,6 @@ void MainWindow::zapis_opcji_na_dysku()
            <<  flag_uruchom_z_loginem << "\n"
             <<  flag_uruchom_przy_logowaniu<< "\n"
              << flag__kilka_kopii<< "\n"
-             << nr_jezyka << "\n"
              << flag_gskala_active << '\n'
              <<  gskala  << '\n'
               << flag_show_dzien_tygodnia << '\n'
@@ -6301,7 +6332,7 @@ void MainWindow::zapis_opcji_na_dysku()
 
 
 
-    //    cerr << "Po zapisie " << nazwa_pliku_z_opcjami << endl;
+       // cerr << "Po zapisie " << nazwa_pliku_z_opcjami << endl;
 }
 //***************************************************************************************************************
 int  MainWindow::id_linux_czy_windows_version()
@@ -6363,7 +6394,9 @@ void MainWindow::wczytanie_opcji_z_dysku()
         cerr << "Error while reading-in a file  " << pathed_nazwa_pliku_z_opcjami << endl;
         return ;
     }
-    plik >> przezroczystosc
+    plik
+            >> nr_jezyka
+            >> przezroczystosc
             >> przezroczystosc_dla_kursora
             >> flag_na_wierzchu
             >>  flag_ograniczenie_pozycji   // nie uzywamy
@@ -6371,7 +6404,6 @@ void MainWindow::wczytanie_opcji_z_dysku()
             >>  flag_uruchom_z_loginem  // ???
             >>  flag_uruchom_przy_logowaniu
             >> flag__kilka_kopii
-            >> nr_jezyka
             >> flag_gskala_active
             >>  gskala
             >> flag_show_dzien_tygodnia
@@ -6708,7 +6740,7 @@ void MainWindow::zapisz_ulubione_wskazowki_na_dysku()
     }
 
 
-    for(auto e : vec_pref_hands)
+    for(auto &e : vec_pref_hands)
     {
         //        cout << "Tarcza " << e.clock_face_name << " lubi wsk godz:  "
         //             << e.hours_hand
@@ -7129,4 +7161,26 @@ void MainWindow::skalowanie_podzialki()
 
 }
 //**********************************************************************************************************
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+     {
+        cout << "zmiana języka" << endl;
+         ui->retranslateUi(this);  // odświeża wszystkie teksty z .ui
+
+         updateTexts();            // jeśli masz teksty ustawiane ręcznie
+     }
+
+     QMainWindow::changeEvent(event);  // WAŻNE!
+}
 //**********************************************************************************************************
+void MainWindow::updateTexts()
+{
+    // ui->labelStatus->setText(tr("Status"));
+    // ui->pushButtonStart->setText(tr("Start"));
+}
+//**********************************************************************************************************
+//**********************************************************************************************************
+
+
+

@@ -1,4 +1,5 @@
 #include "topcje_dlg.h"
+#include "qtranslator.h"
 #include "ui_topcje_dlg.h"
 #include <iostream>
 #include <iomanip>
@@ -9,6 +10,8 @@
 #include <QTimeZone>
 #include <QTableWidgetItem>
 #include <QProcess>
+
+#include <QTranslator>
 
 #include "mainwindow.h"
 #include "tpreferred_hands.h"
@@ -26,6 +29,8 @@ extern bool flag_uruchom_z_loginem;
 extern bool flag_uruchom_przy_logowaniu;
 extern bool flag__kilka_kopii;
 extern int nr_jezyka;
+
+
 extern double gskala;
 extern bool flag_gskala_active;
 
@@ -45,13 +50,13 @@ Topcje_dlg::Topcje_dlg(MainWindow * parent) :
     QDialog(parent),
     ui(new Ui::Topcje_dlg)
 {
+    ui->setupUi(this);   // zawsze na początku!
+
+    // cout << __PRETTY_FUNCTION__ << ", nr_jezyka = " << nr_jezyka << endl;
 
     hide();
     setModal(false);  // wolno zrobic tylko gdy jest hide
-    show();
-
     zegar = parent;
-    ui->setupUi(this);
 
     ui->groupBox_preferences->setVisible(false);
     ui->checkBox_na_wierzchu->setChecked( flag_na_wierzchu);
@@ -68,10 +73,24 @@ Topcje_dlg::Topcje_dlg(MainWindow * parent) :
 
     ui->horizontalSlider_zoom->setValue(gskala * 100);
 
-       ui->comboBox_language->clear();
-    QStringList list_jezykow = { "English"};
-    ui->comboBox_language->insertItems(0, list_jezykow);
-    ui->comboBox_language->setCurrentIndex(nr_jezyka);
+    // // ui->comboBox_language->clear();
+    // // QStringList list_jezykow = { "English", "3Polish"};
+
+    // // ui->comboBox_language->insertItems(1, list_jezykow);
+    // ui->comboBox_language->addItem ("ENGLISH");
+    // ui->comboBox_language->addItem ("POLISH");
+
+    // cout << "Przed zmianą current index" << endl;
+    // ui->comboBox_language->setCurrentIndex(nr_jezyka);
+    // nr_obecnie_zainstalowanego_jezyka = nr_jezyka;
+    // cout << "Po zmianie current index" << endl;
+
+    if(nr_jezyka == 1)
+        ui->radioButton_polish->setChecked(true);
+    else
+        ui->radioButton_english->setChecked(true);
+
+    show();
 
     ui->checkBox_zoom->setChecked(flag_gskala_active);
 
@@ -100,7 +119,7 @@ Topcje_dlg::Topcje_dlg(MainWindow * parent) :
     {
         // jeśli invalid, to sami obliczamy róznice
         auto roznica = QDateTime::currentDateTimeUtc().time().hour() -
-                QDateTime::currentDateTime().time().hour();
+                       QDateTime::currentDateTime().time().hour();
 
         //  cout << "biezacy time_zone   jest    inValid , roznica = " << roznica << endl;
         ostringstream s;
@@ -258,24 +277,24 @@ Topcje_dlg::Topcje_dlg(MainWindow * parent) :
 
 
     ui->radioButton_hours_hand_bitmap_type->
-            setChecked(parent->flag_wsk_godz_bitmapowa );
+        setChecked(parent->flag_wsk_godz_bitmapowa );
     ui->radioButton_hours_hand_vector_type->
-            setChecked(!parent->flag_wsk_godz_bitmapowa );
+        setChecked(!parent->flag_wsk_godz_bitmapowa );
 
     ui->tableWidget_wsk_godzinowe->setEnabled(parent->flag_wsk_godz_bitmapowa);
 
     ui->radioButton_minutes_hand_bitmap_type->
-            setChecked(parent->flag_wsk_min_bitmapowa );
+        setChecked(parent->flag_wsk_min_bitmapowa );
     ui->radioButton_minutes_hand_vector_type->
-            setChecked(!parent->flag_wsk_min_bitmapowa );
+        setChecked(!parent->flag_wsk_min_bitmapowa );
 
     ui->tableWidget_wsk_minutowe->setEnabled(parent->flag_wsk_min_bitmapowa);
 
     // sek
     ui->radioButton_sec_bitmap_type->
-            setChecked(parent->flag_wsk_sek_bitmapowa );
+        setChecked(parent->flag_wsk_sek_bitmapowa );
     ui->radioButton_sec_vector_type ->
-            setChecked(!parent->flag_wsk_sek_bitmapowa );
+        setChecked(!parent->flag_wsk_sek_bitmapowa );
 
     ui->tableWidget_wsk_sekundowe->setEnabled(parent->flag_wsk_sek_bitmapowa);
 
@@ -286,6 +305,7 @@ Topcje_dlg::Topcje_dlg(MainWindow * parent) :
 
 
     zapamientanie_stanu();
+    show();
 }
 //******************************************************************************************************
 Topcje_dlg::~Topcje_dlg()
@@ -346,7 +366,9 @@ void Topcje_dlg::on_buttonBox_accepted()
     flag_uruchom_przy_logowaniu = ui->checkBox_uruchom_przy_logowaniu->isChecked();
     flag__kilka_kopii = ui->checkBox_kilka_kopii->isChecked();
 
-    nr_jezyka = ui->comboBox_language->currentIndex();
+    // nr_jezyka = ui->comboBox_language->currentIndex();
+    // nr_obecnie_zainstalowanego_jezyka = nr_jezyka;
+
 
     flag_show_AM_PM  = ui->checkBox_AM_PM->isChecked();
     flag_show_dzien_tygodnia =  ui->checkBox_dzien_tygodnia->isChecked();
@@ -660,12 +682,12 @@ void Topcje_dlg::info_o_faworytach(string /*nazwa_cyf*/ )
 
         // spr godzinowej ====================================
         if(sprawdz_identycznosc_wskazowki_z_faworytami(
-                    vec_pref_hands[nrf].hours_hand,
+                vec_pref_hands[nrf].hours_hand,
 
-                    w->flag_wsk_godz_bitmapowa,
-                    w->vect_godzinowych[w->nr_wybranej_bitmapy_wsk_godzinowej].nazwa,
-                    w->nr_wsk_wektorowej_godz)
-                )
+                w->flag_wsk_godz_bitmapowa,
+                w->vect_godzinowych[w->nr_wybranej_bitmapy_wsk_godzinowej].nazwa,
+                w->nr_wsk_wektorowej_godz)
+            )
         {
             //           txt += "\nWskazowka godzinowa indentyczna jak favoutite ";
         }else
@@ -679,12 +701,12 @@ void Topcje_dlg::info_o_faworytach(string /*nazwa_cyf*/ )
 
         // spr minutowej ====================================
         if(sprawdz_identycznosc_wskazowki_z_faworytami(
-                    vec_pref_hands[nrf].minutes_hand,
+                vec_pref_hands[nrf].minutes_hand,
 
-                    w->flag_wsk_min_bitmapowa,
-                    w->vect_minutowych[w->nr_wybranej_bitmapy_wsk_minutowej].nazwa,
-                    w->nr_wsk_wektorowej_min)
-                )
+                w->flag_wsk_min_bitmapowa,
+                w->vect_minutowych[w->nr_wybranej_bitmapy_wsk_minutowej].nazwa,
+                w->nr_wsk_wektorowej_min)
+            )
         {
             //            txt += "\nWskazowka minutowa indentyczna jak favoutite ";
         }else
@@ -699,11 +721,11 @@ void Topcje_dlg::info_o_faworytach(string /*nazwa_cyf*/ )
 
         // spr sekundowej ====================================
         if(sprawdz_identycznosc_wskazowki_z_faworytami(
-                    vec_pref_hands[nrf].seconds_hand,
-                    w->flag_wsk_sek_bitmapowa,
-                    w->vect_sekundnikow[w->nr_wybranej_bitmapy_wsk_sekundowej].nazwa,
-                    w->nr_wsk_wektorowej_sek)
-                )
+                vec_pref_hands[nrf].seconds_hand,
+                w->flag_wsk_sek_bitmapowa,
+                w->vect_sekundnikow[w->nr_wybranej_bitmapy_wsk_sekundowej].nazwa,
+                w->nr_wsk_wektorowej_sek)
+            )
         {
             //            txt += "\nWskazowka sekudowa indentyczna jak favoutite ";
         }else
@@ -736,17 +758,17 @@ void Topcje_dlg::info_o_faworytach(string /*nazwa_cyf*/ )
 
 
     ui->label_inf_czy_fabryczne->setText( fabr ? "This is a FACTORY set of hands"
-                                               : "This is not a factory set of hands");
+                                              : "This is not a factory set of hands");
     ui->label_inf_czy_fabryczne->setStyleSheet("color: rgb(0, 0, 127);");
 
 
 }
 //******************************************************************************************************
 bool Topcje_dlg::sprawdz_identycznosc_wskazowki_z_faworytami(
-        string nazwa_ulubionej_wskazowki,
-        bool flag_czy_bitmapa,
-        std::string nazwa_bitmapy,
-        int nr_wektora)
+    string nazwa_ulubionej_wskazowki,
+    bool flag_czy_bitmapa,
+    std::string nazwa_bitmapy,
+    int nr_wektora)
 {
 
     if(flag_czy_bitmapa)
@@ -798,7 +820,7 @@ void Topcje_dlg::on_pushButton_assign_preferred_hands_clicked()
     }else    // bo jak nie to wektorowa
     {
         naz_wsk_godz = // "wektorowa_nr_" +
-                to_string(zegar->nr_wsk_wektorowej_godz) ;
+            to_string(zegar->nr_wsk_wektorowej_godz) ;
 
         //        cout << "bitmapa wsk godzi nazywa sie " <<  naz_wsk_godz << endl;
     }
@@ -812,7 +834,7 @@ void Topcje_dlg::on_pushButton_assign_preferred_hands_clicked()
     }else    // bo jak nie to wektorowa
     {
         naz_wsk_min = // "wektorowa_nr_" +
-                to_string(zegar->nr_wsk_wektorowej_min) ;
+            to_string(zegar->nr_wsk_wektorowej_min) ;
 
         //        cout << "bitmapa wsk minutowa nazywa sie " <<  naz_wsk_min << endl;
     }
@@ -827,7 +849,7 @@ void Topcje_dlg::on_pushButton_assign_preferred_hands_clicked()
     }else    // bo jak nie to wektorowa
     {
         naz_wsk_sek = // "wektorowa_nr_" +
-                to_string(zegar->nr_wsk_wektorowej_sek) ;
+            to_string(zegar->nr_wsk_wektorowej_sek) ;
 
         //        cout << "bitmapa wsk sekundowa nazywa sie " <<  naz_wsk_sek << endl;
     }
@@ -837,10 +859,10 @@ void Topcje_dlg::on_pushButton_assign_preferred_hands_clicked()
     //    cout << "Biezaca nazwa cyferblatu to " << nazwa_cyferbatu << endl;
 
     Tpreferred_hands  robocze_pref(
-                nazwa_cyferbatu,
-                naz_wsk_godz,
-                naz_wsk_min,
-                naz_wsk_sek);
+        nazwa_cyferbatu,
+        naz_wsk_godz,
+        naz_wsk_min,
+        naz_wsk_sek);
 
     // biezaco na ekranie jest cyfreblat o nazwie
 
@@ -939,9 +961,9 @@ void Topcje_dlg::aktualizuj_taby_wskazowkowe()
 
 
     ui->radioButton_hours_hand_bitmap_type->
-            setChecked(zegar->flag_wsk_godz_bitmapowa );
+        setChecked(zegar->flag_wsk_godz_bitmapowa );
     ui->radioButton_hours_hand_vector_type->
-            setChecked(!zegar->flag_wsk_godz_bitmapowa );
+        setChecked(!zegar->flag_wsk_godz_bitmapowa );
 
 
     ui->spinBox_nr_wsk_wektorowej_godz->setEnabled(! zegar->flag_wsk_godz_bitmapowa);
@@ -958,9 +980,9 @@ void Topcje_dlg::aktualizuj_taby_wskazowkowe()
 
     // min----------------------------------------------------------
     ui->radioButton_minutes_hand_bitmap_type->
-            setChecked(zegar->flag_wsk_min_bitmapowa );
+        setChecked(zegar->flag_wsk_min_bitmapowa );
     ui->radioButton_minutes_hand_vector_type->
-            setChecked(!zegar->flag_wsk_min_bitmapowa );
+        setChecked(!zegar->flag_wsk_min_bitmapowa );
 
 
     ui->spinBox_nr_wsk_wektorowej_min->setEnabled(! zegar->flag_wsk_min_bitmapowa);
@@ -977,9 +999,9 @@ void Topcje_dlg::aktualizuj_taby_wskazowkowe()
 
     // sek ----------------------------------------------------------
     ui->radioButton_sec_bitmap_type->
-            setChecked(zegar->flag_wsk_sek_bitmapowa );
+        setChecked(zegar->flag_wsk_sek_bitmapowa );
     ui->radioButton_sec_vector_type ->
-            setChecked(!zegar->flag_wsk_sek_bitmapowa );
+        setChecked(!zegar->flag_wsk_sek_bitmapowa );
 
 
     ui->spinBox_nr_wsk_wektorowej_sek->setEnabled(! zegar->flag_wsk_sek_bitmapowa);
@@ -1046,8 +1068,8 @@ void Topcje_dlg::laduj_tablice_cyferblatow()
     //  ui->tableWidget_cyferblaty->setCurrentCell(nr, 0) ;
     //    ui->tableWidget_cyferblaty->selectRow(nr);
     ui->tableWidget_cyferblaty->scrollToItem(
-                ui->tableWidget_cyferblaty->item(nr, 0),
-                QAbstractItemView::PositionAtCenter );
+        ui->tableWidget_cyferblaty->item(nr, 0),
+        QAbstractItemView::PositionAtCenter );
     ui->tableWidget_cyferblaty->selectRow(nr);
     info_o_faworytach(zegar->cyferblat[nr].nazwa.c_str());
 
@@ -1128,15 +1150,15 @@ void Topcje_dlg::on_pushButton_reset_to_factory_clicked()
     // powrót to bitmapowych wskazowek nr 0 bo te są "fabryczne". NIE zawsze
 
     zegar->flag_wsk_godz_bitmapowa =
-            zegar->cyferblat[ zegar->nr_tarczy].flag_fabryczna_wsk_godz_bitmapowa ?
-                true : false ;
+        zegar->cyferblat[ zegar->nr_tarczy].flag_fabryczna_wsk_godz_bitmapowa ?
+            true : false ;
 
     zegar->flag_wsk_min_bitmapowa =
-            zegar->cyferblat[ zegar->nr_tarczy].flag_fabryczna_wsk_min_bitmapowa ?
-                true : false ;
+        zegar->cyferblat[ zegar->nr_tarczy].flag_fabryczna_wsk_min_bitmapowa ?
+            true : false ;
     zegar->flag_wsk_sek_bitmapowa =
-            zegar->cyferblat[ zegar->nr_tarczy].flag_fabryczna_wsk_sek_bitmapowa ?
-                true : false ;
+        zegar->cyferblat[ zegar->nr_tarczy].flag_fabryczna_wsk_sek_bitmapowa ?
+            true : false ;
 
 
     zegar->nr_wybranej_bitmapy_wsk_godzinowej = 0;
@@ -1169,7 +1191,7 @@ void Topcje_dlg::on_checkBox_uruchom_przy_logowaniu_stateChanged(int arg1 )
     int wersja = zegar->id_linux_czy_windows_version();
     cout << "System to  Windows " << wersja
 
-            << ". Uruchamianie z loginem na razie nie dziala, nie wiem jak to zrobic" << endl;
+         << ". Uruchamianie z loginem na razie nie dziala, nie wiem jak to zrobic" << endl;
 
     if(arg1 == Qt::Unchecked)
     {
@@ -1195,9 +1217,111 @@ void Topcje_dlg::on_checkBox_uruchom_przy_logowaniu_stateChanged(int arg1 )
 
     -------------*/
     }
-    }
 
-    // wlasciwe wykonanie tej komendy w funkcji Accept
+
+// wlasciwe wykonanie tej komendy w funkcji Accept
 
 #endif
 }
+//**********************************************************************************************************
+void Topcje_dlg::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        ui->retranslateUi(this);  // odświeża wszystkie teksty z .ui
+
+        updateTexts();            // jeśli masz teksty ustawiane ręcznie
+    }
+
+    QDialog::changeEvent(event);  // WAŻNE!
+}
+//**********************************************************************************************************
+void Topcje_dlg::updateTexts()
+{
+   // cout << __PRETTY_FUNCTION__ << " obecnie pusta " << endl;
+
+    // ui->labelStatus->setText(tr("Status"));
+    // ui->pushButtonStart->setText(tr("Start"));
+    // ui->comboBox_language->clear();
+    //  ui->comboBox_language->addItem(QString("English"));
+    //  ui->comboBox_language->addItem(QString("Polish44444") );
+}
+//**********************************************************************************************************
+
+void Topcje_dlg::on_comboBox_language_currentIndexChanged(int index)
+{
+    return;
+    // if (index < 0) index = 0;
+    cout << __PRETTY_FUNCTION__ << " obecny index = " << index << endl;
+    extern QTranslator translator;   // globalny lub przekazywany
+    extern QApplication *app;
+    app->removeTranslator(&translator);
+
+    switch(index)
+    {
+
+    default:
+    case 0:
+        // default (angielski)
+        qWarning() << " case 0, czyli angielski ";
+        nr_jezyka = 0;
+        break;
+
+    case 1:
+        bool ok = translator.load(":/polski2.qm");
+        if (!ok) {
+            qWarning() << "Nie można załadować tłumaczenia polski2.qm";
+        }else{
+            nr_jezyka = 1;
+            qWarning() << "Sukces załadowania tłumaczenia polski2.qm";
+        }
+        break;
+
+
+    }
+
+    app->installTranslator(&translator);
+#if 0
+#endif
+
+}
+
+
+void Topcje_dlg::on_radioButton_english_toggled(bool checked)
+{
+    cout << __PRETTY_FUNCTION__ << " obecny checked = " << checked << endl;
+    if(checked) nr_jezyka = 0;
+    else nr_jezyka = 1;
+
+    extern QTranslator translator;   // globalny lub przekazywany
+    extern QApplication *app;
+    app->removeTranslator(&translator);
+
+    switch(nr_jezyka)
+    {
+
+    default:
+    case 0:
+        // default (angielski)
+        qWarning() << " case 0, czyli angielski ";
+        nr_jezyka = 0;
+        break;
+
+    case 1:
+        bool ok = translator.load(":/polski2.qm");
+        if (!ok) {
+            qWarning() << "Nie można załadować tłumaczenia polski2.qm";
+        }else{
+            nr_jezyka = 1;
+            qWarning() << "Sukces załadowania tłumaczenia polski2.qm";
+            app->installTranslator(&translator);
+        }
+        break;
+
+
+    }
+
+    // app->installTranslator(&translator);
+    cout << __PRETTY_FUNCTION__ << " koniec funkcji" << endl;
+}
+

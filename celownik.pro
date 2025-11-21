@@ -8,8 +8,7 @@ QT       += core gui
 QT += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += staticlib
-CONFIG += static
+
 
 TARGET = celownik
 TEMPLATE = app
@@ -61,8 +60,8 @@ RESOURCES += \
 
 
 OTHER_FILES  += \
-                content/*.png \
-    polish.qm
+                content/*.png
+
 
 DISTFILES += \
     content/jak_robic_wskazowki.txt \
